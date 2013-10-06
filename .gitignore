@@ -5,3 +5,5 @@
 *.SBR
 *.bak
 *.plg
+*.hex
+collector

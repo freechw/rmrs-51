@@ -1,4 +1,4 @@
-#include "newupper.h"
+#include "upper.h"
 #include "si4432.h"
 #include "si4432spiport.h"
 #include "si4432spi.h"
@@ -7,28 +7,13 @@
 #include "stdlib.h"
 #include "interseral.h"
 
-
-/************Need Extern Define!!!!!***********
-
-//@ lower.h
-#define LOWER_METER_DATA_LENGTH 38
-extern bit lowerReading_Flag;
-extern bit lowerCanTrans_Flag;
-
-//@store.h
-extern void storeReadPage(unsigned char num, unsigned char buf[], unsigned char length);
-extern void storeWritePage(unsigned char num, unsigned char buf[], unsigned char length);
-extern void storeReadCommandBuf(unsigned char buf[], length);
-extern void storeWriteCommandBuf(unsigned char buf[], length);
-**********************************************/
-
-
 #define STOP_HEX 0x57
 #define READ_HEX 0x7d
 #define UPLOAD_HEX  0x2d
 #define CLEAN_HEX 0xc1
 
 #define UPPER_MAX_SEND_LENGTH LOWER_METER_DATA_LENGTH+4
+#define UPPER_COMMAND_LENGTH 20
 
 data unsigned char SI4432IDF = 0x00;
 data unsigned char SI4432IDS = 0x00;
@@ -37,37 +22,34 @@ data unsigned char SYNCWORDF = 0x2d;
 data unsigned char SYNCWORDS = 0x2c;
 
 data char upperLowerToRead_Flag = 0;
-data char  upperCommandRead_Flag = 0;
+data char upperCommandRead_Flag = 0;
 data char upperCommandUpload_Flag= 0;
 
 xdata unsigned char recvBuf[64];
 
-#define UPPER_COMMAND_LENGTH 20
+
 xdata unsigned char upperCommandBuf[UPPER_COMMAND_LENGTH] = {0};
 
+
 void ResponseSi4432Command(unsigned char buf[], unsigned char length);
+void UpperDoReadCommand();
+void UpperDoUploadCommand();
 void UpperDoCleanCommand();
 
 void SendSi4432Package(unsigned char buf[], unsigned char length) reentrant
 {
     xdata unsigned char sendBuf[UPPER_MAX_SEND_LENGTH];
-    unsigned char tmpET1; //byte to cache ET1 status;
+    unsigned char tmpEX1; //byte to cache EX1 status;
     sendBuf[0] = SI4432IDF;
     sendBuf[1] = SI4432IDS;
     sendBuf[2] = length;
     AddBuf(sendBuf, 3, buf, 0, length);
     sendBuf[length+3] = STOP_HEX;
 
-//    /*********DEBUG!!!**************/
-//    InterSendString("Si4432SendPackage: Send data lenght is: ");
-//    InterSend(&length, 1);
-//    InterSendString("\r\n");
-//    /*******************************/
-    
-    tmpET1 = ET1;//cache ET1 status
-    ET1 = 0;//close timer 1 inturrupt
+    tmpEX1 = EX1;//cache EX1 status
+    EX1 = 0;//close extern(si4432) inturrupt
     RF_FIFO_Send(sendBuf, (length + 4));
-    ET1 = tmpET1;//restore ET1 status
+    EX1 = tmpEX1;//restore EX1 status
 }
 
 
@@ -79,7 +61,6 @@ void Si4432Interrupt() interrupt 2
 
     recvBuf[0] = 0x00;
     recvBuf[63] = 0x00;
-    //InterSendString("Upper: Si4432 Inturrupt\r\n");
     RF_Set_IdleMode();
 
     if((ItStatus1 & 0x01) == 0x01)
@@ -91,17 +72,16 @@ void Si4432Interrupt() interrupt 2
     }
     if((ItStatus1 & 0x02) == 0x02)
     {
-        //unsigned char i;
-        //InterSendString("Upper: Si4432 Receive OK!\r\n");
         length = SPI_Read_Reg(0x4B);
         SPI_Burst_Read(0x7F, recvBuf, length);
-//        InterSendString("Upper: Si4432 Received data is :");
-//        InterHexString(recvBuf, length);
-//        InterSendString("\r\n");
+
+        //check unit id
         if(SI4432IDF == recvBuf[0] && SI4432IDS == recvBuf[1])
         {
+            //check data length
             if((length -4) == recvBuf[2])
             {
+                //check stop hex
                 if(STOP_HEX == recvBuf[length-1])
                 {
                     ResponseSi4432Command(&recvBuf[3], length-4);
@@ -120,11 +100,11 @@ void Si4432Interrupt() interrupt 2
         {
             InterSendString("Upper: Si4432 Address Check Fail!\r\n");
         }
+        //clear rx fifo
         SPI_Write_Reg(0x08, 0x02);
         SPI_Write_Reg(0x08, 0x00);
     }
 
-//    InterSendString("Done\r\n");
     RF_Set_RXMode();
 }
 
@@ -141,7 +121,7 @@ void ResponseSi4432Command(unsigned char buf[], unsigned char commandLength)
             SendSi4432Package(upperCommandBuf, commandLength);
 
             //set the flag to start UpperDoReadCommand()
-            upperCommandRead_Flag = 1;
+            UpperDoReadCommand();
         }
         else
         {

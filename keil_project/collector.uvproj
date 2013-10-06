@@ -46,7 +46,7 @@
           <OutputName>collector</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\</ListingPath>
@@ -213,7 +213,7 @@
               <RCB>
                 <Type>0</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x10000</Size>
+                <Size>0xffff</Size>
               </RCB>
               <RXB>
                 <Type>0</Type>
@@ -317,7 +317,7 @@
             <WarningLevel>2</WarningLevel>
             <DataOverlaying>1</DataOverlaying>
             <OverlayString></OverlayString>
-            <MiscControls></MiscControls>
+            <MiscControls>REMOVEUNUSED</MiscControls>
             <DisableWarningNumbers></DisableWarningNumbers>
             <LinkerCmdFile></LinkerCmdFile>
             <Assign></Assign>
@@ -382,11 +382,6 @@
               <FilePath>..\src\Main.c</FilePath>
             </File>
             <File>
-              <FileName>newupper.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\newupper.c</FilePath>
-            </File>
-            <File>
               <FileName>si4432.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\si4432.c</FilePath>
@@ -405,6 +400,11 @@
               <FileName>store.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\store.c</FilePath>
+            </File>
+            <File>
+              <FileName>upper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\upper.c</FilePath>
             </File>
           </Files>
         </Group>

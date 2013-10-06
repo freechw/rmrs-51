@@ -174,10 +174,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>18</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>37</TopLine>
+      <CurrentLine>48</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\analyze.c</PathWithFileName>
       <FilenameWithoutPath>analyze.c</FilenameWithoutPath>
@@ -230,10 +230,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>109</TopLine>
+      <CurrentLine>133</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\lower.c</PathWithFileName>
       <FilenameWithoutPath>lower.c</FilenameWithoutPath>
@@ -244,27 +244,13 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>25</TopLine>
+      <CurrentLine>53</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\Main.c</PathWithFileName>
       <FilenameWithoutPath>Main.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>8</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\src\newupper.c</PathWithFileName>
-      <FilenameWithoutPath>newupper.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
@@ -272,10 +258,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>30</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>122</TopLine>
+      <CurrentLine>137</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\si4432.c</PathWithFileName>
       <FilenameWithoutPath>si4432.c</FilenameWithoutPath>
@@ -314,15 +300,55 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>4</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>287</TopLine>
+      <CurrentLine>287</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\store.c</PathWithFileName>
       <FilenameWithoutPath>store.c</FilenameWithoutPath>
     </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>11</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>32</TopLine>
+      <CurrentLine>51</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\src\upper.c</PathWithFileName>
+      <FilenameWithoutPath>upper.c</FilenameWithoutPath>
+    </File>
   </Group>
+
+  <AlienFiles>
+    <PathWithFilename>C:\cygwin\home\Joy_on_vm\51code\Collector\SRC\LOWER.H</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
 
   <WinLayout>
     <sActiveDebugView>默认</sActiveDebugView>
@@ -1659,5 +1685,58 @@
       </Window>
     </View>
   </WinLayout>
+
+  <MDIGroups>
+    <Orientation>1</Orientation>
+    <ActiveMDIGroup>0</ActiveMDIGroup>
+    <MDIGroup>
+      <Size>100</Size>
+      <ActiveTab>4</ActiveTab>
+      <Documents>
+        <Doc>
+          <Name>..\src\Main.c</Name>
+          <ColumnNumber>15</ColumnNumber>
+          <TopLine>25</TopLine>
+          <CurrentLine>53</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\src\store.c</Name>
+          <ColumnNumber>4</ColumnNumber>
+          <TopLine>287</TopLine>
+          <CurrentLine>287</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\src\upper.c</Name>
+          <ColumnNumber>11</ColumnNumber>
+          <TopLine>32</TopLine>
+          <CurrentLine>51</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\src\lower.c</Name>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>109</TopLine>
+          <CurrentLine>133</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\SRC\LOWER.H</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\src\analyze.c</Name>
+          <ColumnNumber>18</ColumnNumber>
+          <TopLine>37</TopLine>
+          <CurrentLine>48</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\src\si4432.c</Name>
+          <ColumnNumber>30</ColumnNumber>
+          <TopLine>122</TopLine>
+          <CurrentLine>137</CurrentLine>
+        </Doc>
+      </Documents>
+    </MDIGroup>
+  </MDIGroups>
 
 </ProjectOpt>

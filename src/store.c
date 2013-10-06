@@ -19,15 +19,15 @@ sbit SCL = P1^4;
 
 void Delay11ms()		//@11.0592MHz
 {
-	unsigned char i, j;
+    unsigned char i, j;
 
-	_nop_();
-	i = 120;
-	j = 82;
-	do
-	{
-		while (--j);
-	} while (--i);
+    _nop_();
+    i = 120;
+    j = 82;
+    do
+    {
+        while (--j);
+    } while (--i);
 }
 
 void StoreInit()

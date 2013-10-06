@@ -63,7 +63,6 @@ char ReadMeter(unsigned long id)
         TimerLower_Flag = 0;
         Ch438Uart1Send(readCommandLock, 17);
         Delay100ms();
-        Delay100ms();
         Ch438Uart1Send(readCommandRead, 5);
         TimerLower(LOWER_READ_TIMEOUT);
         while((GD_Flag == 0)&&(TimerLower_Flag == 0));
@@ -84,7 +83,7 @@ char ReadMeter(unsigned long id)
         }
         else
         {
-            continue;
+            //continue;
         }
         Gbuf[0] = 0x00;
         Gbuf[252] = 0x00;
@@ -126,9 +125,15 @@ void LowerReadMeterCycle()
         }
         else
         {
+            unsigned char tmpi;
+            for (tmpi = 0; tmpi < LOWER_METER_DATA_LENGTH; tmpi++)
+            {
+                meterData[tmpi] = 0;
+            }
             *(long *)(&meterData[0]) = id;
-            meterData[LOWER_METER_DATA_LENGTH-1] = 0x17;
+            meterData[LOWER_METER_DATA_LENGTH-1] = 0x07;
             storeWritePage(i, meterData, LOWER_METER_DATA_LENGTH);
+            InterSendString("lower:Lost Meter!\r\n");
         }
         storeWriteReadNum(i+1);
         LowerCanTrans_Flag = 1;

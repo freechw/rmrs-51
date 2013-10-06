@@ -13,9 +13,6 @@ extern data unsigned char SYNCWORDF;
 extern data unsigned char SYNCWORDS;
 
 void UpperInit();
-void UpperDoReadCommand();
-void UpperDoUploadCommand();
 
-void Si4432Interrupt();
 
 #endif

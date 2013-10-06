@@ -132,13 +132,17 @@ void RF_FIFO_Send(unsigned char buf[], unsigned char length)
 
     RF_Set_IdleMode();
 
-    InterSendString("Radio: Prepare to send!\r\n");
+    //clear tx fifo
+    SPI_Write_Reg(0x08, 0x01);
+    SPI_Write_Reg(0x08, 0x00);
 
-    /*********DEBUG!!!**************/
-    InterSendString("Si4432: Send data is: ");
-    InterHexString(buf, length);
-    InterSendString("\r\n");
-    /*******************************/
+//    InterSendString("Radio: Prepare to send!\r\n");
+//
+//    /*********DEBUG!!!**************/
+//    InterSendString("Si4432: Send data is: ");
+//    InterHexString(buf, length);
+//    InterSendString("\r\n");
+//    /*******************************/
 
     SPI_Write_Reg(0x3E, length);
 //    for(i = 0; i < length; i++)
@@ -152,7 +156,7 @@ void RF_FIFO_Send(unsigned char buf[], unsigned char length)
 
     RF_Set_TXMode();
 
-    InterSendString("Si4432: Sending......\r\n");
+//    InterSendString("Si4432: Sending......\r\n");
 
     TimerUpper(SI4432_SEND_TIMEOUT);
     while((NIRQ == 1) && (TimerUpper_Flag == 0));

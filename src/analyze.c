@@ -1,5 +1,6 @@
 #include "analyze.h"
 #include "interseral.h"
+#include "lower.h"
 
 #define METER_ID_OFFSET 7
 #define STATUS_OFFSET 16
@@ -29,8 +30,21 @@ char Analyze(unsigned char buf[], unsigned long Id, unsigned char result[])
     
     if( meterId != Id)
     {
+        unsigned char i;
+        for (i = 0; i < LOWER_METER_DATA_LENGTH; i++)
+        {
+            result[i] = 0xff;
+        }
         ArrayCopy((unsigned char *)(&Id), result, 0, 4);
         result[37] = WRONG_ID;
+        /**************DEBUG****************************/
+        InterSendString("analyze:wrong id, recv id is: ");
+        InterHexString(&buf[METER_ID_OFFSET], 4);
+        InterSendString("\r\n");
+        InterSendString("analyze:expect id is ");
+        InterHexString((unsigned char *)(&Id), 4);
+        InterSendString("\r\n");
+        /***********************************************/
         return -1;
     }
 

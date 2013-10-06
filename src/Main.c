@@ -3,7 +3,7 @@
 #include "stdlib.h"
 #include <intrins.h>
 
-#include "newupper.h"
+#include "upper.h"
 #include "lower.h"
 #include "store.h"
 #include "ch438uart1.h"
@@ -51,11 +51,11 @@ void main(void)
     while(1)
     {
         //InterSendString("main loop!\r\n");
-        if (1 == upperCommandRead_Flag)
-        {
-            UpperDoReadCommand();
-            upperCommandRead_Flag = 0;
-        }
+//        if (1 == upperCommandRead_Flag)
+//        {
+//            UpperDoReadCommand();
+//            upperCommandRead_Flag = 0;
+//        }
         if (1 == upperLowerToRead_Flag)
         {
             LowerReadMeterCycle();
