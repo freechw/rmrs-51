@@ -230,10 +230,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>29</ColumnNumber>
+      <ColumnNumber>2</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>109</TopLine>
-      <CurrentLine>133</CurrentLine>
+      <CurrentLine>120</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\lower.c</PathWithFileName>
       <FilenameWithoutPath>lower.c</FilenameWithoutPath>
@@ -246,7 +246,7 @@
       <Focus>0</Focus>
       <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>25</TopLine>
+      <TopLine>28</TopLine>
       <CurrentLine>53</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\Main.c</PathWithFileName>
@@ -254,21 +254,21 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>9</FileNumber>
+      <FileNumber>8</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>30</ColumnNumber>
+      <ColumnNumber>93</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>122</TopLine>
-      <CurrentLine>137</CurrentLine>
+      <CurrentLine>133</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\si4432.c</PathWithFileName>
       <FilenameWithoutPath>si4432.c</FilenameWithoutPath>
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>10</FileNumber>
+      <FileNumber>9</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -282,7 +282,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>11</FileNumber>
+      <FileNumber>10</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -296,7 +296,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>11</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -310,14 +310,14 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>0</FileNumber>
+      <FileNumber>12</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>11</ColumnNumber>
+      <ColumnNumber>8</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>32</TopLine>
-      <CurrentLine>51</CurrentLine>
+      <CurrentLine>46</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\upper.c</PathWithFileName>
       <FilenameWithoutPath>upper.c</FilenameWithoutPath>
@@ -327,7 +327,7 @@
   <AlienFiles>
     <PathWithFilename>C:\cygwin\home\Joy_on_vm\51code\Collector\SRC\LOWER.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>1</CurrentLine>
+    <CurrentLine>14</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1691,12 +1691,18 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>..\src\si4432.c</Name>
+          <ColumnNumber>93</ColumnNumber>
+          <TopLine>122</TopLine>
+          <CurrentLine>133</CurrentLine>
+        </Doc>
         <Doc>
           <Name>..\src\Main.c</Name>
           <ColumnNumber>15</ColumnNumber>
-          <TopLine>25</TopLine>
+          <TopLine>28</TopLine>
           <CurrentLine>53</CurrentLine>
         </Doc>
         <Doc>
@@ -1707,33 +1713,27 @@
         </Doc>
         <Doc>
           <Name>..\src\upper.c</Name>
-          <ColumnNumber>11</ColumnNumber>
+          <ColumnNumber>8</ColumnNumber>
           <TopLine>32</TopLine>
-          <CurrentLine>51</CurrentLine>
+          <CurrentLine>46</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\src\lower.c</Name>
-          <ColumnNumber>29</ColumnNumber>
+          <ColumnNumber>2</ColumnNumber>
           <TopLine>109</TopLine>
-          <CurrentLine>133</CurrentLine>
+          <CurrentLine>120</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\SRC\LOWER.H</Name>
-          <ColumnNumber>0</ColumnNumber>
+          <ColumnNumber>38</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
+          <CurrentLine>14</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\src\analyze.c</Name>
           <ColumnNumber>18</ColumnNumber>
           <TopLine>37</TopLine>
           <CurrentLine>48</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\src\si4432.c</Name>
-          <ColumnNumber>30</ColumnNumber>
-          <TopLine>122</TopLine>
-          <CurrentLine>137</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>
