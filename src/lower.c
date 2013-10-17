@@ -1,7 +1,6 @@
 #include "lower.h"
 #include "ch438uart1.h"
-#include "ch438regaddress.h"
-//#include "ch438direct_simulate.h"
+#include "ch438direct_simulate.h"
 #include "store.h"
 #include "analyze.h"
 #include "interseral.h"
@@ -151,16 +150,14 @@ void Ch438Interrupt() interrupt 0
 
 //    InterSendString("ch438 interrupt!\r\n");
 
-//    //gInterruptStatus = simRead(SSR);
-    gInterruptStatus = SSR;
+    gInterruptStatus = simRead(SSR);
 //    InterSendString("SSR is ");
 //    InterHexString(&gInterruptStatus, 1);
 //    InterSendString("\r\n");
 
     if(0x02 == (0x02 & gInterruptStatus))
     {
-//        //interruptStatus = (~(0xc0) & simRead(IIR1));
-        interruptStatus = (~(0xc0) & IIR1);
+        interruptStatus = (~(0xc0) & simRead(IIR1));
 //
 //        InterSendString("IIR1 is ");
 //        InterHexString(&interruptStatus, 1);
@@ -173,8 +170,7 @@ void Ch438Interrupt() interrupt 0
                 break;
             case 0x06:
                 InterSendString("CH438: LSR Error!\r\n");
-                //InterSendByte(simRead(LSR1));
-                InterSendByte(LSR1);
+                InterSendByte(simRead(LSR1));
                 break;
             case 0x0c:
             case 0x04:
@@ -222,13 +218,11 @@ void Ch438Interrupt() interrupt 0
                 break;
             case 0x02:
                 InterSendString("CH438: THR Empty!\r\n");
-                //trash = simRead(IIR1);
-                trash = IIR1;
+                trash = simRead(IIR1);
                 break;
             case 0x00:
                 InterSendString("CH438: MSR Error!\r\n");
-                //InterSendByte(simRead(MSR1));
-                InterSendByte(MSR1);
+                InterSendByte(simRead(MSR1));
                 break;
             default:
                 break;
@@ -236,21 +230,21 @@ void Ch438Interrupt() interrupt 0
     }
     if (0x00 != (0xfe & gInterruptStatus))
     {
-        trash = LSR0;
-        trash = LSR2;
-        trash = LSR3;
-        trash = LSR4;
-        trash = LSR5;
-        trash = LSR6;
-        trash = LSR7;
+        trash = simRead(LSR0);
+        trash = simRead(LSR2);
+        trash = simRead(LSR3);
+        trash = simRead(LSR4);
+        trash = simRead(LSR5);
+        trash = simRead(LSR6);
+        trash = simRead(LSR7);
 
-        trash = MSR0;
-        trash = MSR2;
-        trash = MSR3;
-        trash = MSR4;
-        trash = MSR5;
-        trash = MSR6;
-        trash = MSR7;
+        trash = simRead(MSR0);
+        trash = simRead(MSR2);
+        trash = simRead(MSR3);
+        trash = simRead(MSR4);
+        trash = simRead(MSR5);
+        trash = simRead(MSR6);
+        trash = simRead(MSR7);
     }
     EA = 1;
 }

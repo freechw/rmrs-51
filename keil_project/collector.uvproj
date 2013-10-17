@@ -357,11 +357,6 @@
               <FilePath>..\src\analyze.c</FilePath>
             </File>
             <File>
-              <FileName>ch438regaddress.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\src\ch438regaddress.c</FilePath>
-            </File>
-            <File>
               <FileName>ch438uart1.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\ch438uart1.c</FilePath>
@@ -405,6 +400,11 @@
               <FileName>upper.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\src\upper.c</FilePath>
+            </File>
+            <File>
+              <FileName>ch438direct_simulate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\src\ch438direct_simulate.c</FilePath>
             </File>
           </Files>
         </Group>

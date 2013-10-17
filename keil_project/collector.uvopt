@@ -184,20 +184,6 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>3</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\src\ch438regaddress.c</PathWithFileName>
-      <FilenameWithoutPath>ch438regaddress.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
       <FileNumber>4</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
@@ -230,9 +216,9 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>109</TopLine>
+      <TopLine>95</TopLine>
       <CurrentLine>120</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\lower.c</PathWithFileName>
@@ -258,10 +244,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>93</ColumnNumber>
+      <ColumnNumber>19</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>122</TopLine>
-      <CurrentLine>133</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\si4432.c</PathWithFileName>
       <FilenameWithoutPath>si4432.c</FilenameWithoutPath>
@@ -316,11 +302,25 @@
       <Focus>0</Focus>
       <ColumnNumber>8</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>32</TopLine>
-      <CurrentLine>46</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\upper.c</PathWithFileName>
       <FilenameWithoutPath>upper.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>0</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\src\ch438direct_simulate.c</PathWithFileName>
+      <FilenameWithoutPath>ch438direct_simulate.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -1695,9 +1695,9 @@
       <Documents>
         <Doc>
           <Name>..\src\si4432.c</Name>
-          <ColumnNumber>93</ColumnNumber>
-          <TopLine>122</TopLine>
-          <CurrentLine>133</CurrentLine>
+          <ColumnNumber>19</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\src\Main.c</Name>
@@ -1714,13 +1714,13 @@
         <Doc>
           <Name>..\src\upper.c</Name>
           <ColumnNumber>8</ColumnNumber>
-          <TopLine>32</TopLine>
-          <CurrentLine>46</CurrentLine>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\src\lower.c</Name>
-          <ColumnNumber>2</ColumnNumber>
-          <TopLine>109</TopLine>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>95</TopLine>
           <CurrentLine>120</CurrentLine>
         </Doc>
         <Doc>
