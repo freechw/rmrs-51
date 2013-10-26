@@ -7,5 +7,7 @@ void Ch438Uart1SendBuf(unsigned char buf[], unsigned char length);
 unsigned char Ch438Uart1Read(unsigned char * buf);
 void Ch438Uart1SendString(unsigned char * string);
 void Ch438Uart1Send(unsigned char * buf, unsigned char length);
+void Ch438CloseInterrupt();
+void Ch438OpenInterrupt();
 
 #endif

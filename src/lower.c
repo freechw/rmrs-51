@@ -44,6 +44,8 @@ char ReadMeter(unsigned long id)
 
     unsigned char reReadCount = 3;
 
+    Ch438OpenInterrupt();
+
     /*************DEBUG***************/
     InterSendString("Lower:Read Meter! Id is ");
     InterHexString((unsigned char *)&id, 4);
@@ -52,7 +54,8 @@ char ReadMeter(unsigned long id)
 
     *(long *)(&readCommandLock[7]) = id;
     readCommandLock[15] = readCommandLock[15]+ readCommandLock[7] + readCommandLock[8] + readCommandLock[9] + readCommandLock[10];
-    
+
+
     while(reReadCount > 0)
     {
         reReadCount--;
@@ -77,6 +80,7 @@ char ReadMeter(unsigned long id)
             st = AnalyzeHT(Gbuf);
             if(0 == st)
             {
+                Ch438CloseInterrupt();
                 return 0;
             }
         }
@@ -87,7 +91,7 @@ char ReadMeter(unsigned long id)
         Gbuf[0] = 0x00;
         Gbuf[252] = 0x00;
     }
-
+    Ch438CloseInterrupt();
     return -1;
 }
 
@@ -148,20 +152,20 @@ void Ch438Interrupt() interrupt 0
 
     EA = 0;
 
-    InterSendString("ch438 interrupt!\r\n");
+    InterSendString("CH438:interrupt!\r\n");
 
     gInterruptStatus = simRead(SSR);
-//    InterSendString("SSR is ");
-//    InterHexString(&gInterruptStatus, 1);
-//    InterSendString("\r\n");
+    InterSendString("CH438:SSR is ");
+    InterHexString(&gInterruptStatus, 1);
+    InterSendString("\r\n");
 
     if(0x02 == (0x02 & gInterruptStatus))
     {
         interruptStatus = (~(0xc0) & simRead(IIR1));
-//
-//        InterSendString("IIR1 is ");
-//        InterHexString(&interruptStatus, 1);
-//        InterSendString("\r\n");
+
+        InterSendString("CH438:IIR1 is ");
+        InterHexString(&interruptStatus, 1);
+        InterSendString("\r\n");
 
 
         switch(interruptStatus)
@@ -169,8 +173,10 @@ void Ch438Interrupt() interrupt 0
             case 0x01:
                 break;
             case 0x06:
-                InterSendString("CH438: LSR Error!\r\n");
-                InterSendByte(simRead(LSR1));
+                InterSendString("CH438: LSR Error!LSR:");
+                trash = simRead(LSR1);
+                InterHexString(&trash, 1);
+                InterSendString("\r\n");
                 break;
             case 0x0c:
             case 0x04:
@@ -217,12 +223,16 @@ void Ch438Interrupt() interrupt 0
                 }
                 break;
             case 0x02:
-                InterSendString("CH438: THR Empty!\r\n");
+                InterSendString("CH438: THR Empty!IIR1:");
                 trash = simRead(IIR1);
+                InterHexString(&trash, 1);
+                InterSendString("\r\n");
                 break;
             case 0x00:
-                InterSendString("CH438: MSR Error!\r\n");
-                InterSendByte(simRead(MSR1));
+                InterSendString("CH438: MSR Error!MSR1:");
+                trash = simRead(MSR1);
+                InterHexString(&trash, 1);
+                InterSendString("\r\n");
                 break;
             default:
                 break;
@@ -230,6 +240,7 @@ void Ch438Interrupt() interrupt 0
     }
     if (0x00 != (0xfe & gInterruptStatus))
     {
+        InterSendString("CH438: Other Uart Interrupt!\r\n");
         trash = simRead(LSR0);
         trash = simRead(LSR2);
         trash = simRead(LSR3);
@@ -245,6 +256,30 @@ void Ch438Interrupt() interrupt 0
         trash = simRead(MSR5);
         trash = simRead(MSR6);
         trash = simRead(MSR7);
+
+        trash = simRead(IIR0);
+        trash = simRead(IIR2);
+        trash = simRead(IIR3);
+        trash = simRead(IIR4);
+        trash = simRead(IIR5);
+        trash = simRead(IIR6);
+        trash = simRead(IIR7);
+
+        trash = simRead(RBR0);
+        trash = simRead(RBR2);
+        trash = simRead(RBR3);
+        trash = simRead(RBR4);
+        trash = simRead(RBR5);
+        trash = simRead(RBR6);
+        trash = simRead(RBR7);
+
+        simWrite(THR0, trash);
+        simWrite(THR2, trash);
+        simWrite(THR3, trash);
+        simWrite(THR4, trash);
+        simWrite(THR5, trash);
+        simWrite(THR6, trash);
+        simWrite(THR7, trash);
     }
     EA = 1;
 }

@@ -94,6 +94,16 @@ void Ch438Uart1SendString(unsigned char * string)
     }
 }
 
+void Ch438CloseInterrupt()
+{
+    EX0 = 0;
+}
+
+void Ch438OpenInterrupt()
+{
+    EX0 = 1;
+}
+
 //void InitCh438Uart1()
 //{
 //    unsigned short div;
