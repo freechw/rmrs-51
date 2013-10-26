@@ -2,7 +2,7 @@
 #include "STC/STC12C5A60S2.H>
 #include <intrins.h>
 
-#define NOP _nop_()
+#define NOP _nop_();_nop_();_nop_()
 
 unsigned char simRead(unsigned char addr)
 {

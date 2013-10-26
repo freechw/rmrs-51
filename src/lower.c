@@ -60,24 +60,24 @@ char ReadMeter(unsigned long id)
         RD_Flag = 0;
         GD_Flag = 0;
         TimerLower_Flag = 0;
-        Ch438Uart1Send(readCommandLock, 17);
+        Ch438Uart1SendBuf(readCommandLock, 17);
         Delay100ms();
-        Ch438Uart1Send(readCommandRead, 5);
+        Ch438Uart1SendBuf(readCommandRead, 5);
         TimerLower(LOWER_READ_TIMEOUT);
         while((GD_Flag == 0)&&(TimerLower_Flag == 0));
         TimerLowerOff();
         if(1 == GD_Flag)
         {
             xdata char st;
+            /*************DEBUG*****************/
+            InterSendString("[");
+            InterHexString(Gbuf, 253);
+            InterSendString("]\r\n");
+            /***********************************/
             st = AnalyzeHT(Gbuf);
             if(0 == st)
             {
                 return 0;
-            }
-            else
-            {
-                InterSend(Gbuf, 253);
-                InterSendString("\r\n");
             }
         }
         else
@@ -148,7 +148,7 @@ void Ch438Interrupt() interrupt 0
 
     EA = 0;
 
-//    InterSendString("ch438 interrupt!\r\n");
+    InterSendString("ch438 interrupt!\r\n");
 
     gInterruptStatus = simRead(SSR);
 //    InterSendString("SSR is ");

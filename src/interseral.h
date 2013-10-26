@@ -1,6 +1,8 @@
 #ifndef __INTERSERAL_H__
 #define __INTERSERAL_H__
 
+#define INTER_STR_BUF_LENGTH 50
+
 extern bit interSeralRecv_Flag;
 
 void InterSeralInit();

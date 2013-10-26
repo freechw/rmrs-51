@@ -27,7 +27,7 @@ void InitCh438Uart1()
     simWrite(FCR1, 0xc7);//FCR1 = 0xc7;//Enable FIFO, Set 112bit FITO and Clear FITO
     simWrite(LCR1, 0x1b);//LCR1 = 0x1b;//even parity 8bit data 1bit stop
     simWrite(IER1, 0x01);//IER1 = 0x01;//only open recv interrupt
-    simWrite(MCR1, 0x0f);//MCR1 = 0x0f;//Enable Interrput Pin
+    simWrite(MCR1, 0x08);//MCR1 = 0x0f;//Enable Interrput Pin
     simWrite(FCR1, 0xc7);//FCR1 = 0xc7;//112bit FIFO and clear FIFO
 }
 
@@ -55,6 +55,17 @@ void Ch438Uart1SendByte(unsigned char byte)
     while(0x20 != (0x20 & simRead(LSR1)));
     simWrite(THR1, byte);//THR1 = byte;
 }
+
+void Ch438Uart1SendBuf(unsigned char buf[], unsigned char length)
+{
+    unsigned char i = 0;
+    while(0x40 != (0x40 & simRead(LSR1)));
+    simWrite(FCR1, (0x40 | simRead(FCR1)));//clear TX FIFO
+    for (i = 0; i < length; i++)
+    {
+        simWrite(THR1, buf[i]);
+    }
+}
 void Ch438Uart1Send(unsigned char * buf, unsigned char length)
 {
     unsigned char buf_idx = 0;
@@ -71,7 +82,7 @@ unsigned char Ch438Uart1Read(unsigned char * buf)
     {
         buf[buf_idx++] = simRead(RBR1);
     }
-    
+    simWrite(FCR1, (0x20 | simRead(FCR1)));//clear RX FIFO
     return buf_idx;
 }
 

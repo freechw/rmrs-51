@@ -3,7 +3,7 @@
 
 bit interSeralRecv_Flag = 0;
 
-idata unsigned char strBuf[100];
+idata unsigned char strBuf[INTER_STR_BUF_LENGTH * 2];
 
 void InterSeralInit()//115200 bps @11.0592Mhz
 {
@@ -75,26 +75,55 @@ void InterSendString(unsigned char * buf)
 
 void InterHexString(unsigned char buf[], unsigned char length)
 {
+    unsigned char times = length / INTER_STR_BUF_LENGTH;//calc the number of complete block(length is INTER_STR_BUF_LENGTH)
     unsigned char i;
-    for (i = 0; (i < length) && (i < 100); i++)
+    unsigned char j;
+    //send each complete block
+    for (i = 0; i < times; i++)
     {
-        if ((buf[i]/16) <= 9 && (buf[i]/16) >=0)
+        for (j = 0; j < INTER_STR_BUF_LENGTH; j++)
         {
-            strBuf[2 * i] = (buf[i]/16) + 0x30;
+            if (9 >= (buf[j + (i * INTER_STR_BUF_LENGTH) ] / 16) && 0<= (buf[j + (i * INTER_STR_BUF_LENGTH)] / 16))
+            {
+                strBuf[2 * j] = (buf[j + (i * INTER_STR_BUF_LENGTH)] / 16) + 0x30;
+            }
+            else
+            {
+                strBuf[2 * j] = (buf[j + (i * INTER_STR_BUF_LENGTH)] / 16) + 0x37;
+            }
+            if (9 >= (buf[j + (i * INTER_STR_BUF_LENGTH) ] % 16) && 0<= (buf[j + (i * INTER_STR_BUF_LENGTH)] % 16))
+            {
+                strBuf[(2 * j) + 1] = (buf[j + (i * INTER_STR_BUF_LENGTH)] % 16) + 0x30;
+            }
+            else
+            {
+                strBuf[(2 * j) + 1] = (buf[j + (i * INTER_STR_BUF_LENGTH)] % 16) + 0x37;
+            }
+        }
+        //send this block  to InterSeral
+        InterSend(strBuf, 2 * INTER_STR_BUF_LENGTH);
+    }
+    //send the last bytes of buf(length is less than INTER_STR_BUF_LENGTH)
+    for (j = 0; j < (length - (times * INTER_STR_BUF_LENGTH)); j++)
+    {
+        if (9 >= (buf[j + (times * INTER_STR_BUF_LENGTH) ] / 16) && 0<= (buf[j + (times * INTER_STR_BUF_LENGTH)] / 16))
+        {
+            strBuf[2 * j] = (buf[j + (times * INTER_STR_BUF_LENGTH)] / 16) + 0x30;
         }
         else
         {
-            strBuf[2 * i] = (buf[i]/16) + 55;
+            strBuf[2 * j] = (buf[j + (times * INTER_STR_BUF_LENGTH)] / 16) + 55;
         }
-        if ((buf[i]%16) <= 9 && (buf[i]%16) >=0)
+        if (9 >= (buf[j + (times * INTER_STR_BUF_LENGTH) ] % 16) && 0<= (buf[j + (times * INTER_STR_BUF_LENGTH)] % 16))
         {
-            strBuf[(2 * i) + 1] = (buf[i]%16) + 0x30;
+            strBuf[(2 * j) + 1] = (buf[j + (times * INTER_STR_BUF_LENGTH)] % 16) + 0x30;
         }
         else
         {
-            strBuf[(2 * i) + 1] = (buf[i]%16) + 55;
+            strBuf[(2 * j) + 1] = (buf[j + (times * INTER_STR_BUF_LENGTH)] % 16) + 55;
         }
     }
-
-    InterSend(strBuf, 2 * length);
+    //send last byte to InterSeral
+    InterSend(strBuf, 2 * (length - (times * INTER_STR_BUF_LENGTH)));
 }
+
