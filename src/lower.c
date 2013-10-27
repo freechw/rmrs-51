@@ -238,7 +238,7 @@ void Ch438Interrupt() interrupt 0
                 break;
         }
     }
-    if (0x00 != (0xfe & gInterruptStatus))
+    if (0x00 != (0xfd & gInterruptStatus))
     {
         InterSendString("CH438: Other Uart Interrupt!\r\n");
         trash = simRead(LSR0);
