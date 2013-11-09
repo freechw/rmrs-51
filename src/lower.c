@@ -44,13 +44,13 @@ char ReadMeter(unsigned long id)
 
     unsigned char reReadCount = 3;
 
-    Ch438OpenInterrupt();
-
     /*************DEBUG***************/
     InterSendString("Lower:Read Meter! Id is ");
     InterHexString((unsigned char *)&id, 4);
     InterSendString("\r\n");
     /*********************************/
+
+    Ch438OpenInterrupt();
 
     *(long *)(&readCommandLock[7]) = id;
     readCommandLock[15] = readCommandLock[15]+ readCommandLock[7] + readCommandLock[8] + readCommandLock[9] + readCommandLock[10];
@@ -72,11 +72,11 @@ char ReadMeter(unsigned long id)
         if(1 == GD_Flag)
         {
             xdata char st;
-            /*************DEBUG*****************/
-            InterSendString("[");
-            InterHexString(Gbuf, 253);
-            InterSendString("]\r\n");
-            /***********************************/
+//            /*************DEBUG*****************/
+//            InterSendString("[");
+//            InterHexString(Gbuf, 253);
+//            InterSendString("]\r\n");
+//            /***********************************/
             st = AnalyzeHT(Gbuf);
             if(0 == st)
             {
@@ -152,20 +152,20 @@ void Ch438Interrupt() interrupt 0
 
     EA = 0;
 
-    InterSendString("CH438:interrupt!\r\n");
+//    InterSendString("CH438:interrupt!\r\n");
 
     gInterruptStatus = simRead(SSR);
-    InterSendString("CH438:SSR is ");
-    InterHexString(&gInterruptStatus, 1);
-    InterSendString("\r\n");
+//    InterSendString("CH438:SSR is ");
+//    InterHexString(&gInterruptStatus, 1);
+//    InterSendString("\r\n");
 
     if(0x02 == (0x02 & gInterruptStatus))
     {
         interruptStatus = (~(0xc0) & simRead(IIR1));
 
-        InterSendString("CH438:IIR1 is ");
-        InterHexString(&interruptStatus, 1);
-        InterSendString("\r\n");
+//        InterSendString("CH438:IIR1 is ");
+//        InterHexString(&interruptStatus, 1);
+//        InterSendString("\r\n");
 
 
         switch(interruptStatus)
@@ -173,10 +173,10 @@ void Ch438Interrupt() interrupt 0
             case 0x01:
                 break;
             case 0x06:
-                InterSendString("CH438: LSR Error!LSR:");
+//                InterSendString("CH438: LSR Error!LSR:");
                 trash = simRead(LSR1);
-                InterHexString(&trash, 1);
-                InterSendString("\r\n");
+//                InterHexString(&trash, 1);
+//                InterSendString("\r\n");
                 break;
             case 0x0c:
             case 0x04:
@@ -223,16 +223,16 @@ void Ch438Interrupt() interrupt 0
                 }
                 break;
             case 0x02:
-                InterSendString("CH438: THR Empty!IIR1:");
+//                InterSendString("CH438: THR Empty!IIR1:");
                 trash = simRead(IIR1);
-                InterHexString(&trash, 1);
-                InterSendString("\r\n");
+//                InterHexString(&trash, 1);
+//                InterSendString("\r\n");
                 break;
             case 0x00:
-                InterSendString("CH438: MSR Error!MSR1:");
+//                InterSendString("CH438: MSR Error!MSR1:");
                 trash = simRead(MSR1);
-                InterHexString(&trash, 1);
-                InterSendString("\r\n");
+//                InterHexString(&trash, 1);
+//                InterSendString("\r\n");
                 break;
             default:
                 break;
