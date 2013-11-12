@@ -1,6 +1,7 @@
 #include "analyze.h"
 #include "interseral.h"
 #include "lower.h"
+#include "stdlib.h"
 
 #define METER_ID_OFFSET 7
 #define STATUS_OFFSET 16
@@ -15,7 +16,10 @@
 #define WRONG_ID 0x7d
 #define RIGHT_ID 0x00
 
-char Analyze(unsigned char buf[], unsigned long Id, unsigned char result[])
+#define METER_DATA_HEAD 0x68
+#define METER_DATA_TAIL 0x16
+
+unsigned char Analyze(unsigned char buf[], unsigned long Id, unsigned char result[])
 {
     unsigned long meterId = *(unsigned long *)(&buf[METER_ID_OFFSET]);
     unsigned char status = buf[STATUS_OFFSET];
@@ -45,45 +49,33 @@ char Analyze(unsigned char buf[], unsigned long Id, unsigned char result[])
 //        InterHexString((unsigned char *)(&Id), 4);
 //        InterSendString("\r\n");
 //        /***********************************************/
-//        return -1;
+//        return 0;
 //    }
 
-    ArrayCopy((unsigned char *)(&Id), result, 0, 4);
-    ArrayCopy((unsigned char *)(&status), result, 4, 1);
-    ArrayCopy((unsigned char *)(&histPower), result, 5, 4);
-    ArrayCopy((unsigned char *)(&histFlow), result, 9, 4);
-    ArrayCopy((unsigned char *)(&runTime), result, 13, 4);
-    ArrayCopy((unsigned char *)(&flowTemp), result, 17, 4);
-    ArrayCopy((unsigned char *)(&retnTemp), result, 21, 4);
-    ArrayCopy((unsigned char *)(&curtPower), result, 25, 4);
-    ArrayCopy((unsigned char *)(&curtFlow), result, 29, 4);
-    ArrayCopy((unsigned char *)(&dataTime), result, 33, 4);
+    MemCopy(&result[0], (unsigned char *)(&Id), sizeof(Id));
+    MemCopy(&result[4], (unsigned char *)(&status), sizeof(status));
+    MemCopy(&result[5], (unsigned char *)(&histPower), sizeof(histPower));
+    MemCopy(&result[9], (unsigned char *)(&histFlow), sizeof(histFlow));
+    MemCopy(&result[13], (unsigned char *)(&runTime), sizeof(runTime));
+    MemCopy(&result[17], (unsigned char *)(&flowTemp), sizeof(flowTemp));
+    MemCopy(&result[21], (unsigned char *)(&retnTemp), sizeof(retnTemp));
+    MemCopy(&result[25], (unsigned char *)(&curtPower), sizeof(curtPower));
+    MemCopy(&result[29], (unsigned char *)(&curtFlow), sizeof(curtFlow));
+    MemCopy(&result[33], (unsigned char *)(&dataTime), sizeof(dataTime));
     result[37] = RIGHT_ID;
 
-    return 0;
+    return 1;
 }
 
-void ArrayCopy(unsigned char source[], unsigned char target[], unsigned char distIdx, unsigned char num)
-{
-    unsigned char i;
-    for(i = 0; i < num; i++)
-    {
-        target[distIdx+i] = source[i];
-    }
-}
-
-char AnalyzeHT(unsigned char buf[])
+unsigned char AnalyzeHT(unsigned char buf[])
 {
     //unsigned char headByte[] = {0x68, 0xf7, 0xf7, 0x68};
-    unsigned char head = 0x68;
-    unsigned char tail = 0x16;
 
-    
-    if((head == buf[0]) && (tail == buf[252]))
+    if((METER_DATA_HEAD == buf[0]) && (METER_DATA_TAIL == buf[252]))
     {
         InterSendString("AnalyzeHT: Package OK!\r\n");
-        return 0;
+        return 1;
     }
     InterSendString("AnalyzeHT: Package Bad!\r\n");
-    return -1;
+    return 0;
 }

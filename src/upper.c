@@ -15,53 +15,52 @@
 #define UPPER_MAX_SEND_LENGTH LOWER_METER_DATA_LENGTH+4
 #define UPPER_COMMAND_LENGTH 20
 
+
 data unsigned char SI4432IDF = 0x00;
 data unsigned char SI4432IDS = 0x00;
 
-data unsigned char SYNCWORDF = 0x2d;
-data unsigned char SYNCWORDS = 0x2c;
+data unsigned char upperLowerToRead_Flag = 0;
+data unsigned char upperCommandRead_Flag = 0;
+data unsigned char upperCommandUpload_Flag= 0;
 
-data char upperLowerToRead_Flag = 0;
-data char upperCommandRead_Flag = 0;
-data char upperCommandUpload_Flag= 0;
+data unsigned char recvBuf[64];
 
-xdata unsigned char recvBuf[64];
-
-
-xdata unsigned char upperCommandBuf[UPPER_COMMAND_LENGTH] = {0};
-
-
+unsigned char CheckRadioPackage(unsigned char length);
 void ResponseSi4432Command(unsigned char buf[], unsigned char length);
-void UpperDoReadCommand();
-void UpperDoUploadCommand();
+void UpperDoReadCommand(unsigned char buf[]);
+void UpperDoUploadCommand(unsigned char buf[]);
 void UpperDoCleanCommand();
 
-void SendSi4432Package(unsigned char buf[], unsigned char length) reentrant
+void SendSi4432Package(unsigned char buf[], unsigned char length)
 {
-    xdata unsigned char sendBuf[UPPER_MAX_SEND_LENGTH];
-    unsigned char tmpEX1; //byte to cache EX1 status;
+    idata unsigned char sendBuf[UPPER_MAX_SEND_LENGTH];
+    //data unsigned char tmpEX1; //byte to cache EX1 status;
     sendBuf[0] = SI4432IDF;
     sendBuf[1] = SI4432IDS;
     sendBuf[2] = length;
-    AddBuf(sendBuf, 3, buf, 0, length);
+    MemCopy(&sendBuf[3], &buf[0], length);
     sendBuf[length+3] = STOP_HEX;
 
-    tmpEX1 = EX1;//cache EX1 status
-    EX1 = 0;//close extern(si4432) inturrupt
+    //tmpEX1 = EX1;//cache EX1 status
+    //EX1 = 0;//close extern(si4432) inturrupt
     RF_FIFO_Send(sendBuf, (length + 4));
-    EX1 = tmpEX1;//restore EX1 status
+    //EX1 = tmpEX1;//restore EX1 status
 }
 
 
 void Si4432Interrupt() interrupt 2
 {
     unsigned char length = 0;
+    WDT_CONTR =  0x3F;//feed dog
 
     IE1 = 0;
 
     recvBuf[0] = 0x00;
     recvBuf[63] = 0x00;
     RF_Set_IdleMode();
+
+    ItStatus1 = SPI_Read_Reg(0x03);
+    ItStatus2 = SPI_Read_Reg(0x04);
 
     if((ItStatus1 & 0x01) == 0x01)
     {
@@ -75,30 +74,10 @@ void Si4432Interrupt() interrupt 2
         length = SPI_Read_Reg(0x4B);
         SPI_Burst_Read(0x7F, recvBuf, length);
 
-        //check unit id
-        if(SI4432IDF == recvBuf[0] && SI4432IDS == recvBuf[1])
+        //check package
+        if (1 == CheckRadioPackage(length))
         {
-            //check data length
-            if((length -4) == recvBuf[2])
-            {
-                //check stop hex
-                if(STOP_HEX == recvBuf[length-1])
-                {
-                    ResponseSi4432Command(&recvBuf[3], length-4);
-                }
-                else
-                {
-                    InterSendString("Upper: Si4432 Stop Check Fail!\r\n");
-                }
-            }
-            else
-            {
-                InterSendString("Upper: Si4432 Length Check Fail!\r\n");
-            }
-        }
-        else
-        {
-            InterSendString("Upper: Si4432 Address Check Fail!\r\n");
+            ResponseSi4432Command(&recvBuf[3], length - 4);
         }
         //clear rx fifo
         SPI_Write_Reg(0x08, 0x02);
@@ -108,92 +87,106 @@ void Si4432Interrupt() interrupt 2
     RF_Set_RXMode();
 }
 
-void ResponseSi4432Command(unsigned char buf[], unsigned char commandLength)
+unsigned char CheckRadioPackage(unsigned char length)
 {
-    if(READ_HEX == buf[0])
+    //check unit id
+    if(SI4432IDF == recvBuf[0] && SI4432IDS == recvBuf[1])
     {
-        if (1 != lowerReading_Flag)
+        //check data length
+        if((length -4) == recvBuf[2])
         {
-            //cache the command in to memory
-            UpperInterruptAddBuf(upperCommandBuf, 0, buf, 0, commandLength);
-
-            //return command ack to concentrator
-            SendSi4432Package(upperCommandBuf, commandLength);
-
-            //set the flag to start UpperDoReadCommand()
-            UpperDoReadCommand();
+            //check stop hex
+            if(STOP_HEX == recvBuf[length-1])
+            {
+                return 1;
+            }
+            else
+            {
+                InterSendString("Upper: Si4432 Stop Check Fail!\r\n");
+            }
         }
         else
         {
-            unsigned char tmpCommandBuf[UPPER_COMMAND_LENGTH];
-            storeReadCommandBuf(tmpCommandBuf, 20);
-            SendSi4432Package(tmpCommandBuf, UPPER_COMMAND_LENGTH);
+            InterSendString("Upper: Si4432 Length Check Fail!\r\n");
         }
-    }
-    else if(UPLOAD_HEX == buf[0])
-    {
-        if(1 == lowerCanTrans_Flag)
-        {
-            //cache the command in to memory
-            AddBuf(upperCommandBuf, 0, buf, 0, commandLength);
-
-            //return command ack to concentrator
-            //SendSi4432Package(upperCommandBuf, commandLength);
-
-            //set the flag to start UpperDoUploadCommand()
-            UpperDoUploadCommand();
-        }
-        else
-        {
-            unsigned char tmpCommandBuf[UPPER_COMMAND_LENGTH];
-            storeReadCommandBuf(tmpCommandBuf, 20);
-            SendSi4432Package(tmpCommandBuf, UPPER_COMMAND_LENGTH);
-        }
-    }
-    else if(CLEAN_HEX == buf[0])
-    {
-        SendSi4432Package(buf, commandLength);
-        UpperDoCleanCommand();
     }
     else
     {
-        InterSendString("Upper: Unkonwn Command Hex: ");
-        InterHexString(buf, 1);
-        InterSendString("\r\n");
+        InterSendString("Upper: Si4432 Address Check Fail!\r\n");
+    }
+    return 0;
+}
+
+
+void ResponseSi4432Command(unsigned char buf[], unsigned char commandLength)
+{
+    switch (buf[0])
+    {
+        case READ_HEX:
+            if (1 != lowerReading_Flag)
+            {
+                //return command ack to concentrator
+                SendSi4432Package(buf, commandLength);
+                //set the flag to start UpperDoReadCommand()
+                UpperDoReadCommand(buf);
+            }
+            else
+            {
+                storeReadCommandBuf(buf, UPPER_COMMAND_LENGTH);
+                SendSi4432Package(buf, UPPER_COMMAND_LENGTH);
+            }
+            break;
+        case UPLOAD_HEX:
+            if(1 == lowerCanTrans_Flag)
+            {
+                UpperDoUploadCommand(buf);
+            }
+            else
+            {
+                storeReadCommandBuf(buf, UPPER_COMMAND_LENGTH);
+                SendSi4432Package(buf, UPPER_COMMAND_LENGTH);
+            }
+            break;
+        case CLEAN_HEX:
+            SendSi4432Package(buf, commandLength);
+            UpperDoCleanCommand();
+            break;
+        default:
+            InterSendString("Upper: Unkonwn Command Hex: ");
+            InterHexString(buf, 1);
+            InterSendString("\r\n");
     }
 }
 
-void UpperDoReadCommand()
+void UpperDoReadCommand(unsigned char buf[])
 {
     unsigned char meterNum;
     unsigned char i;
 
     InterSendString("Upper: Read Meter Command!\r\n");
 
-    storeWriteCommandBuf(upperCommandBuf, UPPER_COMMAND_LENGTH);
-    meterNum = upperCommandBuf[1];
+    storeWriteCommandBuf(buf, UPPER_COMMAND_LENGTH);
+    meterNum = buf[1];
     for ( i = 0; i < meterNum; i++)
     {
-        storeWritePage((i), &upperCommandBuf[(i+1) * 4], 4);
+        storeWritePage((i), &buf[(i+1) * 4], 4);
     }
 
     //set the flag to let lower start read cycle
     upperLowerToRead_Flag  = 1;
 }
 
-void UpperDoUploadCommand()
+void UpperDoUploadCommand(unsigned char buf[])
 {
     //get the meter sequence number in cached command
-    unsigned char meterNumber = upperCommandBuf[3] -1;
-
-    unsigned char tmpMeterData[LOWER_METER_DATA_LENGTH];
+    unsigned char meterNumber = buf[3] -1;
 
     InterSendString("Upper: Upload!\r\n");
 
     //extract the meter data from AT24C256
-    storeReadPage(meterNumber, tmpMeterData, LOWER_METER_DATA_LENGTH);
+    storeReadPage(meterNumber, buf, LOWER_METER_DATA_LENGTH);
     //send meter data to concentrator
-    SendSi4432Package(tmpMeterData, LOWER_METER_DATA_LENGTH);
+    SendSi4432Package(buf, LOWER_METER_DATA_LENGTH);
 }
 
 void UpperDoCleanCommand()
@@ -216,11 +209,9 @@ void UpperInit()
     upperCommandUpload_Flag = 0;
 
     RF_Reset();
+    RF_Init();
 
-    RF_init(SYNCWORDF, SYNCWORDS);
-    SPI_Write_Reg(0x05, 0x03);
-    SPI_Write_Reg(0x06, 0x00);
-
+    RF_Set_IdleMode();
     RF_Set_RXMode();
 
     IT1 = 0;//low triger

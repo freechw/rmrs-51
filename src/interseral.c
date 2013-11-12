@@ -1,9 +1,10 @@
 #include "interseral.h"
 #include <STC/STC12C5A60S2.H>
 
-bit interSeralRecv_Flag = 0;
-
+#define INTER_STR_BUF_LENGTH 16
 idata unsigned char strBuf[INTER_STR_BUF_LENGTH * 2];
+
+data unsigned char interSeralRecv_Flag = 0;
 
 void InterSeralInit()//115200 bps @11.0592Mhz
 {
@@ -17,19 +18,6 @@ void InterSeralInit()//115200 bps @11.0592Mhz
     ES = 0;
     TI = 1;
 }
-
-//void InterSeralInit(void)        //115200bps@12.000MHz
-//{
-//    PCON |= 0x80;        //使能波特率倍速位SMOD
-//    SCON = 0x50;        //8位数据,可变波特率
-//    AUXR |= 0x04;        //独立波特率发生器时钟为Fosc,即1T
-//    BRT = 0xF9;        //设定独立波特率发生器重装值
-//    AUXR |= 0x01;        //串口1选择独立波特率发生器为波特率发生器
-//    AUXR |= 0x10;        //启动独立波特率发生器
-//
-//    ES = 0;
-//    TI = 1;
-//}
 
 void InterSendByte(unsigned char byte)
 {

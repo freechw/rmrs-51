@@ -174,10 +174,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>46</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>70</TopLine>
-      <CurrentLine>82</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\analyze.c</PathWithFileName>
       <FilenameWithoutPath>analyze.c</FilenameWithoutPath>
@@ -188,10 +188,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>18</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>76</TopLine>
-      <CurrentLine>94</CurrentLine>
+      <TopLine>142</TopLine>
+      <CurrentLine>152</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\ch438uart1.c</PathWithFileName>
       <FilenameWithoutPath>ch438uart1.c</FilenameWithoutPath>
@@ -202,10 +202,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>110</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>92</TopLine>
-      <CurrentLine>94</CurrentLine>
+      <TopLine>87</TopLine>
+      <CurrentLine>105</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\interseral.c</PathWithFileName>
       <FilenameWithoutPath>interseral.c</FilenameWithoutPath>
@@ -216,10 +216,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>14</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>25</TopLine>
-      <CurrentLine>47</CurrentLine>
+      <TopLine>227</TopLine>
+      <CurrentLine>231</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\lower.c</PathWithFileName>
       <FilenameWithoutPath>lower.c</FilenameWithoutPath>
@@ -230,10 +230,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>39</ColumnNumber>
+      <ColumnNumber>29</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>35</TopLine>
-      <CurrentLine>35</CurrentLine>
+      <TopLine>61</TopLine>
+      <CurrentLine>61</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\Main.c</PathWithFileName>
       <FilenameWithoutPath>Main.c</FilenameWithoutPath>
@@ -244,10 +244,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>50</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <CurrentLine>21</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\si4432.c</PathWithFileName>
       <FilenameWithoutPath>si4432.c</FilenameWithoutPath>
@@ -258,10 +258,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>13</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>7</CurrentLine>
+      <TopLine>90</TopLine>
+      <CurrentLine>100</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\si4432spi.c</PathWithFileName>
       <FilenameWithoutPath>si4432spi.c</FilenameWithoutPath>
@@ -274,8 +274,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>13</TopLine>
+      <CurrentLine>42</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\stdlib.c</PathWithFileName>
       <FilenameWithoutPath>stdlib.c</FilenameWithoutPath>
@@ -286,10 +286,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>4</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>287</TopLine>
-      <CurrentLine>287</CurrentLine>
+      <TopLine>293</TopLine>
+      <CurrentLine>317</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\store.c</PathWithFileName>
       <FilenameWithoutPath>store.c</FilenameWithoutPath>
@@ -300,10 +300,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>31</ColumnNumber>
+      <ColumnNumber>5</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>163</TopLine>
-      <CurrentLine>181</CurrentLine>
+      <TopLine>25</TopLine>
+      <CurrentLine>36</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\upper.c</PathWithFileName>
       <FilenameWithoutPath>upper.c</FilenameWithoutPath>
@@ -314,10 +314,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>14</ColumnNumber>
+      <ColumnNumber>47</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>14</CurrentLine>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\src\ch438direct_simulate.c</PathWithFileName>
       <FilenameWithoutPath>ch438direct_simulate.c</FilenameWithoutPath>
@@ -325,9 +325,9 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>C:\cygwin\home\Joy_on_vm\51code\Collector\SRC\CH438UART1.H</PathWithFilename>
+    <PathWithFilename>C:\cygwin\home\Joy_on_vm\51code\Collector\SRC\SI4432.H</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>10</CurrentLine>
+    <CurrentLine>7</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -1691,61 +1691,31 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>3</ActiveTab>
+      <ActiveTab>1</ActiveTab>
       <Documents>
         <Doc>
-          <Name>..\src\analyze.c</Name>
-          <ColumnNumber>46</ColumnNumber>
-          <TopLine>70</TopLine>
-          <CurrentLine>82</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\src\ch438uart1.c</Name>
-          <ColumnNumber>18</ColumnNumber>
-          <TopLine>76</TopLine>
-          <CurrentLine>94</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>..\src\Main.c</Name>
-          <ColumnNumber>39</ColumnNumber>
-          <TopLine>35</TopLine>
-          <CurrentLine>35</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\src\lower.c</Name>
-          <ColumnNumber>14</ColumnNumber>
-          <TopLine>25</TopLine>
-          <CurrentLine>47</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\SRC\CH438UART1.H</Name>
-          <ColumnNumber>27</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>10</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\src\ch438direct_simulate.c</Name>
-          <ColumnNumber>14</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>14</CurrentLine>
+          <ColumnNumber>29</ColumnNumber>
+          <TopLine>61</TopLine>
+          <CurrentLine>61</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\src\upper.c</Name>
-          <ColumnNumber>31</ColumnNumber>
-          <TopLine>163</TopLine>
-          <CurrentLine>181</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\src\si4432spi.c</Name>
-          <ColumnNumber>13</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>7</CurrentLine>
+          <ColumnNumber>5</ColumnNumber>
+          <TopLine>25</TopLine>
+          <CurrentLine>36</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\src\si4432.c</Name>
-          <ColumnNumber>50</ColumnNumber>
+          <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
+          <CurrentLine>21</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\SRC\SI4432.H</Name>
+          <ColumnNumber>7</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>7</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

@@ -4,24 +4,21 @@
 
 data unsigned int timerCountLower = 0;//Timer current count number
 data unsigned char timerAlarmNumLower = 0;//Timer setting time
-bit TimerLower_Flag = 0;//set to 1 when the timer clock;
+data unsigned char TimerLower_Flag = 0;//set to 1 when the timer clock;
 
 data unsigned int timerCountUpper = 0;//Timer current count number
 data unsigned char timerAlarmNumUpper = 0;//Timer setting time
-bit TimerUpper_Flag = 0;//set to 1 when the timer clock;
+data unsigned char TimerUpper_Flag = 0;//set to 1 when the timer clock;
 
 
 
 
-void AddBuf(unsigned char target[], unsigned char target_idx, unsigned char source[], unsigned char  source_idx, unsigned char n) reentrant
+void MemCopy(unsigned char target[], unsigned char source[], unsigned char n) reentrant
 {
     unsigned char i;
     for( i = 0; i < n; i++)
     {
-        if(256 >= (target_idx+i))
-        {
-            target[target_idx+i] = source[source_idx+i];
-        }
+        target[i] = source[i];
     }
 }
 
@@ -148,31 +145,5 @@ void Delay100ms()		//@11.0592MHz
 		} while (--j);
 	} while (--i);
 }
-
-/*
-void UpperInterruptAddBuf(unsigned char target[], unsigned char target_idx, unsigned char source[], unsigned char  source_idx, unsigned char n)
-{
-    unsigned char i;
-    for( i = 0; i < n; i++)
-    {
-        if(256 >= (target_idx+i))
-        {
-            target[target_idx+i] = source[source_idx+i];
-        }
-    }
-}
-
-void LowerInterruptAddBuf(unsigned char target[], unsigned char target_idx, unsigned char source[], unsigned char  source_idx, unsigned char n)
-{
-    unsigned char i;
-    for( i = 0; i < n; i++)
-    {
-        if(256 >= (target_idx+i))
-        {
-            target[target_idx+i] = source[source_idx+i];
-        }
-    }
-}
-*/
 
 

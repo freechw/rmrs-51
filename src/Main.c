@@ -1,28 +1,27 @@
 #include <STC/STC12C5A60S2.H>
 #include "interseral.h"
 #include "stdlib.h"
-#include <intrins.h>
+//#include <intrins.h>
 
 #include "upper.h"
 #include "lower.h"
 #include "store.h"
-#include "ch438uart1.h"
-//#include "ch438regaddress.h"
-//#include "ch438direct_simulate.h"
 
-//for timer 1 interrupt
-//#include "si4432spiport.h"
+#include "si4432.h"
 
 
-#define NOP; _nop_();
+//#define NOP; _nop_();
 
-void Delay100ms();
-void Timer1Init();
 void SetInterruptPriority();
 void WaitCommand();
+void IdleProcess();
+
+data unsigned short idleCount1 = 0;
+data unsigned char idleCount2 = 60;
 
 void main(void)
 {
+    WDT_CONTR =  0x2F;//watch dog enble and hold count in idle mode(this project doesn't use idle mode)
     EA = 0;
     IE = 0x00;
     IE2 = 0x00;
@@ -47,20 +46,22 @@ void main(void)
     TimerLowerOff();
     TimerUpperOff();
 
+    idleCount1 = 0;
+    idleCount2 = 60;
+
+    WDT_CONTR =  0x3F;//feed dog
+
     //main loop
     while(1)
     {
-        //InterSendString("main loop!\r\n");
-//        if (1 == upperCommandRead_Flag)
-//        {
-//            UpperDoReadCommand();
-//            upperCommandRead_Flag = 0;
-//        }
         if (1 == upperLowerToRead_Flag)
         {
+            WDT_CONTR =  0x3F;//feed dog
             LowerReadMeterCycle();
             upperLowerToRead_Flag = 0;
+            WDT_CONTR =  0x3F;//feed dog
         }
+        IdleProcess();
     }
 }
 
@@ -80,6 +81,7 @@ void SetInterruptPriority()
 void WaitCommand()
 {
     unsigned int tmpInt;
+    //unsigned char * dataPoint;
     TimerUpper(2);
     while(0 == TimerUpper_Flag)
     {
@@ -152,8 +154,10 @@ void WaitCommand()
     SYNCWORDS = 0xff & (tmpInt);
     SYNCWORDF = (tmpInt >> 8);
     InterSendString("unit id is: ");
+    //dataPoint = &SI4432IDS;
     InterHexString(&SI4432IDS, 1);
-    InterHexString(&SI4432IDF, 1);
+    //dataPoint = &SI4432IDF;
+    InterHexString(&SI4432IDS, 1);
     InterSendString("\r\n");
     InterSendString("sync word is ");
     InterHexString(&SYNCWORDF, 1);
@@ -161,3 +165,18 @@ void WaitCommand()
     InterSendString("\r\n");
 
 }
+
+void IdleProcess()
+{
+    idleCount1--;
+    if (0 == idleCount1)
+    {
+        idleCount2--;
+        WDT_CONTR =  0x3F;//feed dog
+    }
+    if (0 == idleCount2)
+    {
+        idleCount2 = 60;
+        InterSendString("Idle Process: Version: 0.9  Working......\r\n");
+    }
+} 

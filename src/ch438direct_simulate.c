@@ -4,7 +4,7 @@
 
 #define NOP _nop_();_nop_();_nop_()
 
-unsigned char simRead(unsigned char addr)
+unsigned char simRead(unsigned char addr) small
 {
     unsigned char value;
     P2 = 0xff;
@@ -32,7 +32,7 @@ unsigned char simRead(unsigned char addr)
     return value;
 }
 
-void simWrite(unsigned char addr, unsigned char value)
+void simWrite(unsigned char addr, unsigned char value) small
 {
     P2 = 0xff;
     NOP;

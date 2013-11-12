@@ -7,8 +7,8 @@
 sbit WR = P3^6;
 sbit RD = P3^7;
 
-unsigned char simRead(unsigned char addr);
-void simWrite(unsigned char addr, unsigned char value);
+unsigned char simRead(unsigned char addr) small;
+void simWrite(unsigned char addr, unsigned char value) small;
 
 
 #endif

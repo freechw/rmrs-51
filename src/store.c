@@ -170,8 +170,6 @@ void _IN_ReadPage(unsigned char buf[], unsigned char length, unsigned int addr)
 {
     unsigned char i = 0;
 
-    ET1 = 0;//close timer 1 interrupt
-
     Start();
     Write(0xa0);
     WaitACK();

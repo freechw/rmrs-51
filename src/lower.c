@@ -18,24 +18,24 @@ extern void storeWriteReadNum(unsigned char num);
 
 
 
-bit CD_Flag = 0;//set to 1 when send the read meter seral command
-bit RD_Flag = 0;//set to 1 when seral port get the 0x68, it means the start of the meter data package
-bit GD_Flag = 0;//set to 1 when get more the 253 bytes from the start(0x68) of the package
-data char LowerCanTrans_Flag = 0;//set to 1 when read all the recommand meters
-data char LowerReading_Flag = 0;
+data unsigned char CD_Flag = 0;//set to 1 when send the read meter seral command
+data unsigned char RD_Flag = 0;//set to 1 when seral port get the 0x68, it means the start of the meter data package
+data unsigned char GD_Flag = 0;//set to 1 when get more the 253 bytes from the start(0x68) of the package
+data unsigned char LowerCanTrans_Flag = 0;//set to 1 when read all the recommand meters
+data unsigned char LowerReading_Flag = 0;
 
 data unsigned char ch438ReadNum = 0;//number of vaild bytes read from CH438
 xdata unsigned char ch438ReadBuf[128];//buf to store the temp data read from CH438 FIFO
 
-xdata unsigned char Gbuf[256];//buf to store meter data before analyze
+xdata unsigned char Gbuf[255];//buf to store meter data before analyze
 data unsigned char GbufCount = 0;//Counter to count the vaild bytes number in Gbuf
 
 xdata unsigned char meterData[LOWER_METER_DATA_LENGTH] = {0};//buf to store meter data after analyze
 
-#define LOWER_READ_TIMEOUT 5 //seconds of read meter timeout
+#define LOWER_READ_TIMEOUT 3 //seconds of read meter timeout
 
 
-char ReadMeter(unsigned long id)
+unsigned char ReadMeter(unsigned long id)
 {
     unsigned char readCommandLock[] = {0x68, 0x0b, 0x0b, 0x68, 0x53, 0xfd,
                                        0x52, 0x00, 0x00, 0x00, 0x00, 0xff,
@@ -45,11 +45,12 @@ char ReadMeter(unsigned long id)
     unsigned char reReadCount = 3;
 
     /*************DEBUG***************/
-    InterSendString("Lower:Read Meter! Id is ");
+    InterSendString("Lower:Read Meter! Id is 0x");
     InterHexString((unsigned char *)&id, 4);
     InterSendString("\r\n");
     /*********************************/
 
+    WDT_CONTR =  0x3F;//feed dog
     Ch438OpenInterrupt();
 
     *(long *)(&readCommandLock[7]) = id;
@@ -58,6 +59,7 @@ char ReadMeter(unsigned long id)
 
     while(reReadCount > 0)
     {
+        WDT_CONTR =  0x3F;//feed dog
         reReadCount--;
         CD_Flag = 1;
         RD_Flag = 0;
@@ -71,17 +73,10 @@ char ReadMeter(unsigned long id)
         TimerLowerOff();
         if(1 == GD_Flag)
         {
-            xdata char st;
-//            /*************DEBUG*****************/
-//            InterSendString("[");
-//            InterHexString(Gbuf, 253);
-//            InterSendString("]\r\n");
-//            /***********************************/
-            st = AnalyzeHT(Gbuf);
-            if(0 == st)
+            if(1 == AnalyzeHT(Gbuf))
             {
                 Ch438CloseInterrupt();
-                return 0;
+                return 1;
             }
         }
         else
@@ -92,7 +87,7 @@ char ReadMeter(unsigned long id)
         Gbuf[252] = 0x00;
     }
     Ch438CloseInterrupt();
-    return -1;
+    return 0;
 }
 
 
@@ -108,18 +103,12 @@ void LowerReadMeterCycle()
         unsigned long id;
 
         storeReadPage(i, (char *)(&id), 4);
-        if (0 == ReadMeter(id))
+        if (1 == ReadMeter(id))
         {
-            if (0 == Analyze(Gbuf, id, meterData))
+            WDT_CONTR =  0x3F;//feed dog
+            if (1 == Analyze(Gbuf, id, meterData))
             {
                 storeWritePage(i, meterData, LOWER_METER_DATA_LENGTH);
-
-//                /*********DEBUG!!!**************/
-//                InterSendString("ReadMeterCycle: meter data is: ");
-//                InterSend(meterData, LOWER_METER_DATA_LENGTH);
-//                InterSendString("\r\n");
-//                /*******************************/
-
             }
             else
             {
@@ -129,6 +118,7 @@ void LowerReadMeterCycle()
         else
         {
             unsigned char tmpi;
+            WDT_CONTR =  0x3F;//feed dog
             for (tmpi = 0; tmpi < LOWER_METER_DATA_LENGTH; tmpi++)
             {
                 meterData[tmpi] = 0;
@@ -136,7 +126,6 @@ void LowerReadMeterCycle()
             *(long *)(&meterData[0]) = id;
             meterData[LOWER_METER_DATA_LENGTH-1] = 0x07;
             storeWritePage(i, meterData, LOWER_METER_DATA_LENGTH);
-            InterSendString("lower:Lost Meter!\r\n");
         }
         storeWriteReadNum(i+1);
         LowerCanTrans_Flag = 1;
@@ -206,12 +195,12 @@ void Ch438Interrupt() interrupt 0
                         {
                             RD_Flag = 1;
                             GbufCount = ch438ReadNum - i;
-                            LowerInterruptAddBuf(Gbuf, 0, ch438ReadBuf, i, GbufCount);
+                            MemCopy(&Gbuf[0], &ch438ReadBuf[i], GbufCount);
                         }
                     }
                     else
                     {
-                        LowerInterruptAddBuf(Gbuf, GbufCount, ch438ReadBuf, 0, ch438ReadNum);
+                        MemCopy(&Gbuf[GbufCount], &ch438ReadBuf[0], ch438ReadNum);
                         GbufCount = GbufCount + ch438ReadNum;
                         if( GbufCount >= 253)
                         {
@@ -288,13 +277,13 @@ void LowerInit()
 {
     InitCh438Uart1();
 
-    Ch438Uart1SendString("hello meter!\r\n");
+//    Ch438Uart1SendString("hello meter!\r\n");
 
     CD_Flag = 0;
     RD_Flag = 0;
     GD_Flag = 0;
 
-    EX0 = 1;
+    EX0 = 0;
     IT0 = 0;
 
     InterSendString("Lower: Lower Ready!\r\n");

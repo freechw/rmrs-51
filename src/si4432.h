@@ -3,7 +3,10 @@
 
 extern data unsigned char ItStatus1,ItStatus2;
 
-void RF_init(unsigned char syncwordf, unsigned char syncwords);
+extern data unsigned char SYNCWORDF;
+extern data unsigned char SYNCWORDS;
+
+void RF_Init();
 
 void RF_Set_RXMode(void);
 

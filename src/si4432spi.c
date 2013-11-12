@@ -5,7 +5,7 @@
 
 #define NOP; _nop_();
 
-void SPI_Write_Reg(unsigned char reg, unsigned char value)
+void SPI_Write_Reg(unsigned char reg, unsigned char value) small
 {
     unsigned char i;
     unsigned char Temp_byte;
@@ -41,7 +41,7 @@ void SPI_Write_Reg(unsigned char reg, unsigned char value)
     NOP;
 }
 
-unsigned char SPI_Read_Reg(unsigned char reg)
+unsigned char SPI_Read_Reg(unsigned char reg) small
 {
     unsigned char i;
     unsigned char Temp_byte;
@@ -84,7 +84,7 @@ unsigned char SPI_Read_Reg(unsigned char reg)
     return(Result);
 }
 
-void SPI_Burst_Write(unsigned char addr, unsigned char buf[], unsigned char length)
+void SPI_Burst_Write(unsigned char addr, unsigned char buf[], unsigned char length) small
 {
     unsigned char Temp_byte;
     unsigned char i;
@@ -124,7 +124,7 @@ void SPI_Burst_Write(unsigned char addr, unsigned char buf[], unsigned char leng
     NSEL = 1;
     NOP;
 }
-void SPI_Burst_Read(unsigned char addr, unsigned char buf[], unsigned char length)
+void SPI_Burst_Read(unsigned char addr, unsigned char buf[], unsigned char length) small
 {
     unsigned char Temp_byte;
     unsigned char i;

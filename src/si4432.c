@@ -8,8 +8,6 @@
 
 #define NOP; _nop_();
 
-
-
 //This value should be set according to the experiment value, different batches has different value.
 #define CRYSTAL_CAPACITANCE     0xB4
 
@@ -17,14 +15,19 @@
 #define RxGPIOSetting(); SPI_Write_Reg(0x0E, 0x01);
 #define IdleGPIOSetting(); SPI_Write_Reg(0x0E, 0x01);
 
-#define SI4432_SEND_TIMEOUT 4
-#define SI4432_RESET_TIMEOUT 4
+#define SI4432_SEND_TIMEOUT 2
+#define SI4432_RESET_TIMEOUT 2
+
+data unsigned char SYNCWORDF = 0x2d;
+data unsigned char SYNCWORDS = 0x2c;
+
+void Delay3ms();
 
 
 data unsigned char ItStatus1,ItStatus2;
 
 
-void RF_init(unsigned char syncwordf, unsigned char syncwords)
+void RF_Init()
 {
     //Set the physical parameters
     //Frequency:       433MHz
@@ -76,8 +79,8 @@ void RF_init(unsigned char syncwordf, unsigned char syncwords)
     SPI_Write_Reg(0x33, 0x02);                                                           //write data to the Header Control2 register    
     
     //Set the sync word pattern to 0x2DD4
-    SPI_Write_Reg(0x36, syncwordf);                                                           //write data to the Sync Word 3 register
-    SPI_Write_Reg(0x37, syncwords);                                                           //write data to the Sync Word 2 register
+    SPI_Write_Reg(0x36, SYNCWORDF);                                                           //write data to the Sync Word 3 register
+    SPI_Write_Reg(0x37, SYNCWORDS);                                                           //write data to the Sync Word 2 register
 
     //enable the TX & RX packet handler and CRC-16 (IBM) check
     SPI_Write_Reg(0x30, 0x8D);                                                           //write data to the Data Access Control register
@@ -96,34 +99,34 @@ void RF_init(unsigned char syncwordf, unsigned char syncwords)
     SPI_Write_Reg(0x09, CRYSTAL_CAPACITANCE);                                            //write data to the Crystal Oscillator Load Capacitance register
 }
 
-void RF_Set_RXMode(void)
+void RF_Set_RXMode()
 {
-    ItStatus1 = SPI_Read_Reg(0x03);
-    ItStatus2 = SPI_Read_Reg(0x04);
-
     RxGPIOSetting();
+    //only enable pkvalid interrupt
+    SPI_Write_Reg(0x05, 0x03);
+    SPI_Write_Reg(0x06, 0x00);
 
-    SPI_Write_Reg(0x07, 0x05);
+    SPI_Write_Reg(0x07, 0x06);//set rxon, pllon bit in 07h
 }
 
-void RF_Set_TXMode(void)
+void RF_Set_TXMode()
 {
-    ItStatus1 = SPI_Read_Reg(0x03);
-    ItStatus2 = SPI_Read_Reg(0x04);
+    //only enable pksent interrupt
+    SPI_Write_Reg(0x05, 0x04);
+    SPI_Write_Reg(0x06, 0x00);
 
     TxGPIOSetting();
-
-    SPI_Write_Reg(0x07, 0x09);
+    Delay3ms();
+    Delay3ms();
+    Delay3ms();
+    SPI_Write_Reg(0x07, 0x0a);//set txon, pllon bit in 07h
 }
 
-void RF_Set_IdleMode(void)
+void RF_Set_IdleMode()
 {
-    SPI_Write_Reg(0x07, 0x01);
+    SPI_Write_Reg(0x07, 0x02);//set pllon bit in 07h
 
     IdleGPIOSetting();
-
-    ItStatus1 = SPI_Read_Reg(0x03);
-    ItStatus2 = SPI_Read_Reg(0x04);
 }
 
 void RF_FIFO_Send(unsigned char buf[], unsigned char length)
@@ -145,14 +148,7 @@ void RF_FIFO_Send(unsigned char buf[], unsigned char length)
 //    /*******************************/
 
     SPI_Write_Reg(0x3E, length);
-//    for(i = 0; i < length; i++)
-//    {
-//        SPI_Write_Reg(0x7F, buf[i]);
-//    }
     SPI_Burst_Write(0x7F, buf, length);
-
-    SPI_Write_Reg(0x05, 0x04);
-    SPI_Write_Reg(0x06, 0x00);
 
     RF_Set_TXMode();
 
@@ -165,14 +161,13 @@ void RF_FIFO_Send(unsigned char buf[], unsigned char length)
     {
         TimerUpper_Flag = 0;
         InterSendString("Si4432: Send Fail!\r\n");
+        RF_Reset();
+        RF_Init();
     }
 
-    SPI_Write_Reg(0x05, 0x03);
-    SPI_Write_Reg(0x06, 0x00);
+    Delay3ms();
+    RF_Set_IdleMode();
     RF_Set_RXMode();
-
-    ItStatus1 = SPI_Read_Reg(0x03);
-    ItStatus2 = SPI_Read_Reg(0x04);
 
     InterSendString("Si4432: Send End!\r\n");
 
@@ -203,5 +198,17 @@ void RF_Reset()
     }
     ItStatus1 = SPI_Read_Reg(0x03);
     ItStatus2 = SPI_Read_Reg(0x04);
+}
+
+void Delay3ms()        //@11.0592MHz
+{
+    unsigned char i, j;
+
+    i = 33;
+    j = 66;
+    do
+    {
+        while (--j);
+    } while (--i);
 }
 
