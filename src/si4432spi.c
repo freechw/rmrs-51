@@ -5,172 +5,77 @@
 
 #define NOP; _nop_();
 
-void SPI_Write_Reg(unsigned char reg, unsigned char value) small
+void SPI_Init()
 {
-    unsigned char i;
-    unsigned char Temp_byte;
+    SPDAT = 0x00;
+    SPSTAT = 0xc0;
+    SPCTL = 0xD0;
+}
 
+void SPI_Write_Reg(unsigned char reg, unsigned char value)
+{
     NSEL = 0;
     NOP;
-    Temp_byte = (reg|0x80);
-
-    for(i = 0; i < 8; i++)
-    {
-        SDI = (Temp_byte&0x80);
-        NOP;
-        SCLK = 1;
-        NOP;
-        SCLK = 0;
-        NOP;
-        Temp_byte <<= 0x01;
-    }
-
-    Temp_byte = value;
-    for(i = 0; i < 8; i++)
-    {
-        SDI = (Temp_byte&0x80);
-        NOP;
-        SCLK = 1;
-        NOP;
-        SCLK = 0;
-        NOP;
-        Temp_byte <<= 0x01;
-    }
-
+    SPSTAT = 0xc0;
+    SPDAT = (reg | 0x80);
+    while(!(0x80 & SPSTAT));
+    SPSTAT = 0xc0;
+    SPDAT = value;
+    while(!(0x80 & SPSTAT));
     NSEL = 1;
     NOP;
 }
 
-unsigned char SPI_Read_Reg(unsigned char reg) small
+unsigned char SPI_Read_Reg(unsigned char reg)
 {
-    unsigned char i;
-    unsigned char Temp_byte;
-    unsigned char Result;
-
+    unsigned char value;
     NSEL = 0;
     NOP;
-    Temp_byte = reg;
-
-    for(i = 0; i < 8; i++)
-    {
-        SDI = (Temp_byte&0x80);
-        NOP;
-        SCLK = 1;
-        NOP;
-        SCLK = 0;
-        NOP;
-        Temp_byte <<= 0x01;
-    }
-
-    Result = 0;
-    SDO = 1;//let the sdo pin input
-    for(i = 0; i < 8; i++)
-    {
-        Result = Result<<1;
-        SCLK = 1;
-        NOP;
-
-        if(SDO)
-        {
-            Result |= 1;
-        }
-
-        SCLK = 0;
-        NOP;
-    }
-
+    SPSTAT = 0xc0;
+    SPDAT = reg;
+    while(!(0x80 & SPSTAT));
+    SPSTAT = 0xc0;
+    SPDAT = 0xaa;
+    while(!(0x80 & SPSTAT));
+    value = SPDAT;
     NSEL = 1;
-
-    return(Result);
+    NOP;
+    return value;
 }
 
-void SPI_Burst_Write(unsigned char addr, unsigned char buf[], unsigned char length) small
+void SPI_Burst_Write(unsigned char addr, unsigned char buf[], unsigned char length)
 {
-    unsigned char Temp_byte;
     unsigned char i;
-    unsigned char j;
-
-    Temp_byte = (addr|0x80);
-
     NSEL = 0;
     NOP;
-
-    for(i = 0; i < 8; i++)
-    {
-        SDI = (Temp_byte&0x80);
-        NOP;
-        SCLK = 1;
-        NOP;
-        SCLK = 0;
-        NOP;
-        Temp_byte <<= 0x01;
-    }
-
+    SPSTAT = 0xc0;
+    SPDAT = (addr | 0x80);
+    while(!(0x80 & SPSTAT));
     for (i = 0; i < length; i++)
     {
-        Temp_byte = buf[i];
-        for(j = 0; j < 8; j++)
-        {
-            SDI = (Temp_byte&0x80);
-            NOP;
-            SCLK = 1;
-            NOP;
-            SCLK = 0;
-            NOP;
-            Temp_byte <<= 0x01;
-        }
+        SPSTAT = 0xc0;
+        SPDAT = buf[i];
+        while(!(0x80 & SPSTAT));
     }
-
     NSEL = 1;
     NOP;
 }
-void SPI_Burst_Read(unsigned char addr, unsigned char buf[], unsigned char length) small
+
+void SPI_Burst_Read(unsigned char addr, unsigned char buf[], unsigned char length)
 {
-    unsigned char Temp_byte;
     unsigned char i;
-    unsigned char j;
-    unsigned char Result;
-
-    Temp_byte = addr;
-
     NSEL = 0;
     NOP;
-
-    for(i = 0; i < 8; i++)
-    {
-        SDI = (Temp_byte&0x80);
-        NOP;
-        SCLK = 1;
-        NOP;
-        SCLK = 0;
-        NOP;
-        Temp_byte <<= 0x01;
-    }
-
-
-    SDO = 1;//let the sdo pin input
-    NOP;
-
+    SPSTAT = 0xc0;
+    SPDAT = addr;
+    while(!(0x80 & SPSTAT));
     for (i = 0; i < length; i++)
     {
-        Result = 0;
-        for(j = 0; j < 8; j++)
-        {
-            Result = Result<<1;
-            SCLK = 1;
-            NOP;
-
-            if(SDO)
-            {
-                Result |= 1;
-            }
-
-            SCLK = 0;
-            NOP;
-        }
-        buf[i] = Result;
+        SPSTAT = 0xc0;
+        SPDAT = 0xbb;
+        while(!(0x80 & SPSTAT));
+        buf[i] = SPDAT;
     }
-
     NSEL = 1;
     NOP;
 }

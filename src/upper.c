@@ -208,6 +208,8 @@ void UpperInit()
     upperCommandRead_Flag = 0;
     upperCommandUpload_Flag = 0;
 
+    SPI_Init();
+
     RF_Reset();
     RF_Init();
 

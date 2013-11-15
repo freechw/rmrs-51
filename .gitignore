@@ -2,6 +2,7 @@
 *.lst
 *.lnp
 *.MAP
+*.ORC
 *.SBR
 *.bak
 *.plg
